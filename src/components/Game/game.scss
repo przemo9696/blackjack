@@ -65,6 +65,13 @@
     }
 } 
 
+button.user-button:disabled {
+  opacity: 0.3;
+  &:hover {
+    background-color: #33b211;
+  }
+}
+
 .user-counter {
   width: 50px;
   align-self: center;
@@ -132,6 +139,19 @@
     100% {opacity: 1}
   } 
 }
+
+.fade-out {
+  animation-name: fadeOut;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+
+  @keyframes fadeOut {
+    0% {opacity: 1}
+  
+    100% {opacity: 0}
+  } 
+}
+
 .result-box .user-button {
 
   width: 9.5rem;

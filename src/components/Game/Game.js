@@ -9,8 +9,8 @@ const TheGame = () => {
     const [playerHand, setPlayerHand] = useState([]);
     const [message, setMessage] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
-    let showResult = false;
-    let fade = "fade-in";
+    const [showResult, setShowResult] = useState(false);
+    let fade = isDisabled ? 'fade-in' : 'fade-out';
 
 
     useEffect(() => {
@@ -34,24 +34,28 @@ const TheGame = () => {
     };
 
     const playAgainHandler = () => {
+        setTimeout(() => {
+            setShowResult(false);            
+        }, 1000);
+        setIsDisabled(false);
         shuffleDeck(setDeck, deck)
         setPlayerHand([]);
-        setCount(0);
-        showResult = false;
-        setIsDisabled(false);
+        setCount(0);   
     }
 
    useEffect(() => {
        if(count > 21) {
+           setShowResult(true);
            setIsDisabled(true);
+           setMessage('You lost!');
        }
    }, [count]);
 
     return (
         <div className="main">
-            {isDisabled ? (
+            {showResult ? (
                 <div className={`result-box ${fade}`}>
-                    <div className="result-box-message">You lost!</div>
+                    <div className="result-box-message">{message}</div>
                     <button className="user-button" onClick={playAgainHandler}>PLAY AGAIN</button>
                 </div>
             ) : null}   
@@ -68,9 +72,9 @@ const TheGame = () => {
             </div>
             <div className="user-interface-bg">6</div>
             <div className="user-interface">
-                <button className="user-button" onClick={onHitHandler}>HIT</button>
+                <button className="user-button" onClick={onHitHandler} disabled={isDisabled}>HIT</button>
                 <div className="user-counter">{count}</div>
-                <button className="user-button" disabled={isDisabled} onClick={() => {console.log(deck)}}>PASS</button>
+                <button className="user-button" disabled={isDisabled}>PASS</button>
             </div>
         </div>
     );
