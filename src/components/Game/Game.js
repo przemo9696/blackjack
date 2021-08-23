@@ -5,8 +5,10 @@ import {fetchDeck, fetchCard, shuffleDeck} from './../Game/Fetch.js';
 const TheGame = () => {
 
     const [deck, setDeck] = useState(null);
-    const [count, setCount] = useState(0);
+    const [playerCount, setPlayerCount] = useState(0);
+    const [croupierCount, setCroupierCount] = useState(0);
     const [playerHand, setPlayerHand] = useState([]);
+    const [croupierHand, setCroupierHand] = useState([]);
     const [message, setMessage] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
     const [showResult, setShowResult] = useState(false);
@@ -22,14 +24,14 @@ const TheGame = () => {
         playerHand.push(card);
        
         if (card[0].value === 'ACE') {
-            setCount((prevCount) => prevCount + 11);
+            setPlayerCount((prevCount) => prevCount + 11);
         }
 
         else if (card[0].value === 'JACK' || card[0].value === 'QUEEN' || card[0].value === 'KING') {
-            setCount((prevCount) => prevCount + 10);
+            setPlayerCount((prevCount) => prevCount + 10);
         }
         else {
-            setCount((prevCount) => prevCount + Number(card[0].value));
+            setPlayerCount((prevCount) => prevCount + Number(card[0].value));
         } 
     };
 
@@ -40,19 +42,34 @@ const TheGame = () => {
         setIsDisabled(false);
         shuffleDeck(setDeck, deck)
         setPlayerHand([]);
-        setCount(0);   
+        setPlayerCount(0);   
     }
 
    useEffect(() => {
-       if(count > 21) {
+       if(playerCount > 21) {
            setShowResult(true);
            setIsDisabled(true);
            setMessage('You lost!');
        }
-   }, [count]);
+   }, [playerCount]);
 
     return (
         <div className="main">
+            <div className="croupier-score-bg"></div>
+            <div className="croupier-score" >
+                <div className="counter">{croupierCount}</div>
+            </div>
+            <div className="croupier-hand">
+            {croupierHand.map((card) => {
+                    return (
+                        <>
+                            <div className="card" key={card[0].value}>
+                                <img src={card[0].image} alt="" />
+                            </div>
+                        </>
+                    ) 
+                })}
+            </div>
             {showResult ? (
                 <div className={`result-box ${fade}`}>
                     <div className="result-box-message">{message}</div>
@@ -70,10 +87,10 @@ const TheGame = () => {
                     ) 
                 })}
             </div>
-            <div className="user-interface-bg">6</div>
+            <div className="user-interface-bg"></div>
             <div className="user-interface">
                 <button className="user-button" onClick={onHitHandler} disabled={isDisabled}>HIT</button>
-                <div className="user-counter">{count}</div>
+                <div className="counter">{playerCount}</div>
                 <button className="user-button" disabled={isDisabled}>PASS</button>
             </div>
         </div>
