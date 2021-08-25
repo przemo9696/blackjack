@@ -21,28 +21,29 @@ const TheGame = () => {
 
     useEffect(() => {
 
-        if (croupierCount > playerCount) {
+        if (croupierCount > playerCount && croupierCount < 21) {
             setMessage('You lost!'); 
             setShowResult(true);
         }
 
         else if (isMount.current && croupierCount !== 0) {
             
-            if (croupierCount < 17) {
+            if ((croupierCount < 17)) {
                 setTimeout(() => {
                     onStandHandler();
                 }, 1000);
-            }          
-            else if(croupierCount < playerCount && croupierCount > 17) {
+            } 
+         
+            if ((croupierCount < playerCount && croupierCount >= 17) || (croupierCount > 21)) {
                 setMessage('You won!');
                 setShowResult(true);
             }
-            else if(croupierCount > playerCount && croupierCount > 17) {
+            else if(croupierCount > playerCount && croupierCount >= 17) {
                 setMessage('You lost!');
-                showResult(true);
+                setShowResult(true);
             }
 
-            else if(croupierCount === playerCount && croupierCount > 17) {
+            else if(croupierCount === playerCount && croupierCount >= 17) {
                 setMessage('Draw!');
                 setShowResult(true);
             }
