@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import './../Game/game.scss';
 import {fetchDeck, fetchCard, shuffleDeck} from './../Game/Fetch.js';
 
@@ -12,15 +12,36 @@ const TheGame = () => {
     const [message, setMessage] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
     const [showResult, setShowResult] = useState(false);
+    const [isStand, setIsStand] = useState(false);
+    const isMount = useRef(false);
     let fade = isDisabled ? 'fade-in' : 'fade-out';
-
 
     useEffect(() => {
         fetchDeck(setDeck);
     }, []);
+
+    useEffect(() => {
+        if (croupierCount > playerCount) {
+            setMessage('You lost!'); 
+            setShowResult(true);
+        }
+
+        else if (isMount.current && croupierCount !== 0) {
+            
+            if (croupierCount < 17) {
+                setTimeout(() => {
+                    onStandHandler();
+                }, 1000);
+
+            }
+        }
+        else  isMount.current = true;   
+    }, [croupierCount]);
+
+  
     
     const onHitHandler = async () => {
-        let card = await fetchCard(deck);
+        let card = await fetchCard(deck, 1);
         playerHand.push(card);
        
         if (card[0].value === 'ACE') {
@@ -35,6 +56,26 @@ const TheGame = () => {
         } 
     };
 
+   
+   
+    const onStandHandler = async () => {
+
+            setIsDisabled(true);
+            let card = await fetchCard(deck, 1);
+            croupierHand.push(card);
+        
+            if (card[0].value === 'ACE') {
+                setCroupierCount(prevCount => prevCount + 11);
+            }
+        
+            else if (card[0].value === 'JACK' || card[0].value === 'QUEEN' || card[0].value === 'KING') {
+                setCroupierCount(prevCount => prevCount + 10);
+            }
+            else {
+                setCroupierCount(prevCount => prevCount + Number(card[0].value));
+            };    
+    };
+
     const playAgainHandler = () => {
         setTimeout(() => {
             setShowResult(false);            
@@ -43,6 +84,9 @@ const TheGame = () => {
         shuffleDeck(setDeck, deck)
         setPlayerHand([]);
         setPlayerCount(0);   
+        setCroupierHand([]);
+        setCroupierCount(0);
+        isMount.current = false;
     }
 
    useEffect(() => {
@@ -91,7 +135,7 @@ const TheGame = () => {
             <div className="user-interface">
                 <button className="user-button" onClick={onHitHandler} disabled={isDisabled}>HIT</button>
                 <div className="counter">{playerCount}</div>
-                <button className="user-button" disabled={isDisabled}>PASS</button>
+                <button className="user-button" onClick={onStandHandler} disabled={isDisabled}>STAND</button>
             </div>
         </div>
     );

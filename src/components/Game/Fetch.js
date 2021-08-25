@@ -12,8 +12,8 @@ export const shuffleDeck = async (props, deck) => {
     props(responseJSON);
 }
 
-export const fetchCard = async (deck) => {
-    const response = await fetch(`https://deckofcardsapi.com/api/deck/${deck?.deck_id}/draw/?count=1`, {
+export const fetchCard = async (deck, count) => {
+    const response = await fetch(`https://deckofcardsapi.com/api/deck/${deck?.deck_id}/draw/?count=${count}`, {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
@@ -21,4 +21,10 @@ export const fetchCard = async (deck) => {
     })
     const responseJSON = await response.json();
     return responseJSON.cards;
+
 };
+
+fetchCard.defaultProps = {
+    count: 1,
+};
+
