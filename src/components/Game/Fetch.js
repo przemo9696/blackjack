@@ -24,7 +24,4 @@ export const fetchCard = async (deck, count) => {
 
 };
 
-fetchCard.defaultProps = {
-    count: 1,
-};
 

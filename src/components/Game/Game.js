@@ -12,7 +12,6 @@ const TheGame = () => {
     const [message, setMessage] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
     const [showResult, setShowResult] = useState(false);
-    const [isStand, setIsStand] = useState(false);
     const isMount = useRef(false);
     let fade = isDisabled ? 'fade-in' : 'fade-out';
 
@@ -21,6 +20,7 @@ const TheGame = () => {
     }, []);
 
     useEffect(() => {
+
         if (croupierCount > playerCount) {
             setMessage('You lost!'); 
             setShowResult(true);
@@ -32,10 +32,24 @@ const TheGame = () => {
                 setTimeout(() => {
                     onStandHandler();
                 }, 1000);
+            }          
+            else if(croupierCount < playerCount && croupierCount > 17) {
+                setMessage('You won!');
+                setShowResult(true);
+            }
+            else if(croupierCount > playerCount && croupierCount > 17) {
+                setMessage('You lost!');
+                showResult(true);
+            }
 
+            else if(croupierCount === playerCount && croupierCount > 17) {
+                setMessage('Draw!');
+                setShowResult(true);
             }
         }
         else  isMount.current = true;   
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [croupierCount]);
 
   
