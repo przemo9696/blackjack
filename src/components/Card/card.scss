@@ -1,0 +1,18 @@
+.card img {
+    z-index: 12;
+    width: 20vh;
+  }
+  
+  @keyframes cardAnimation {
+    0% {bottom: 100px;}
+  
+    100% {bottom: 0px;}
+  }
+  
+  .card {
+    position: relative;
+    right: 7.5vh;
+    width: 4vh;
+    animation-name: cardAnimation;
+    animation-duration: 1s;
+  }

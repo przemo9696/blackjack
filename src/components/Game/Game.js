@@ -1,6 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react';
 import './../Game/game.scss';
 import {fetchDeck, fetchCard, shuffleDeck} from './../Game/Fetch.js';
+import Card from './../Card/Card.js';
 
 const TheGame = () => {
 
@@ -122,9 +123,7 @@ const TheGame = () => {
             {croupierHand.map((card) => {
                     return (
                         <>
-                            <div className="card" key={card[0].value}>
-                                <img src={card[0].image} alt="" />
-                            </div>
+                            <Card key={card[0].value} source={card[0].image}/>
                         </>
                     ) 
                 })}
@@ -139,9 +138,7 @@ const TheGame = () => {
                 {playerHand.map((card) => {
                     return (
                         <>
-                            <div className="card" key={card[0].value}>
-                                <img src={card[0].image} alt="" />
-                            </div>
+                            <Card source={card[0].image} key={card[0].value} />
                         </>
                     ) 
                 })}
