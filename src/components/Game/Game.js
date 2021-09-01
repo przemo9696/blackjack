@@ -35,7 +35,7 @@ const TheGame = () => {
                 }, 1000);
             } 
          
-            if ((croupierCount < playerCount && croupierCount >= 17) || (croupierCount > 21)) {
+            else if ((croupierCount < playerCount && croupierCount >= 17) || (croupierCount > 21)) {
                 setMessage('You won!');
                 setShowResult(true);
             }
