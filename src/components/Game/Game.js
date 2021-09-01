@@ -122,9 +122,7 @@ const TheGame = () => {
             <div className="croupier-hand">
             {croupierHand.map((card) => {
                     return (
-                        <>
-                            <Card key={card[0].value} source={card[0].image}/>
-                        </>
+                            <Card key={card[0].code} source={card[0].image}/>
                     ) 
                 })}
             </div>
@@ -137,9 +135,7 @@ const TheGame = () => {
             <div className="player-hand">
                 {playerHand.map((card) => {
                     return (
-                        <>
                             <Card source={card[0].image} key={card[0].value} />
-                        </>
                     ) 
                 })}
             </div>
