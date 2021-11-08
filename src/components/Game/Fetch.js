@@ -20,8 +20,9 @@ export const fetchCard = async (deck, count) => {
         }
     })
     const responseJSON = await response.json();
+    console.log(responseJSON);
     return responseJSON.cards;
-
+    
 };
 
 

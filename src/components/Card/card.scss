@@ -5,7 +5,7 @@
   
   @keyframes cardAnimation {
     0% {bottom: 100px;}
-  
+    
     100% {bottom: 0px;}
   }
   
@@ -16,3 +16,7 @@
     animation-name: cardAnimation;
     animation-duration: 1s;
   }
+  
+  .hidden:nth-child(1) img{
+    content: url('../../assets/card_reverse.png');
+}

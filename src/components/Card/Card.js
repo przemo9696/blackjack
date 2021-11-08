@@ -3,7 +3,7 @@ import './../Card/card.scss';
 
 const Card = (props) => {
     return (
-            <div className="card">
+            <div className={`card ${props.firstHidden ? 'hidden' : null}`}>
                 <img src={props.source} alt="" />
             </div>
     )
