@@ -3,6 +3,7 @@ import './../Game/game.scss';
 import {fetchDeck, shuffleDeck} from './../Game/Fetch.js';
 import Card from './../Card/Card.js';
 import {drawCard} from '../../helpers/drawCard.js';
+import Button from './../Button/Button.js';
 
 const TheGame = () => {
     
@@ -16,6 +17,7 @@ const TheGame = () => {
     const [isStarted, setIsStarted] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [firstHidden, setFirstHidden] = useState(true);
+    const [buttonText, setButtonText] = useState('PLAY');
     const isMount = useRef(false);
     let fade = isStarted ? 'fade-out' : 'fade-in';
     
@@ -38,6 +40,7 @@ const TheGame = () => {
             }, 1500)
             setTimeout(() => {
                 setIsDisabled(false);
+                setButtonText('PLAY AGAIN');
             }, 2000)
         }
     }, [isStarted]);
@@ -154,28 +157,28 @@ const TheGame = () => {
             <div className="croupier-hand">
             {croupierHand.map((card) => {
                     return (
-                        <Card key={card[0].code} source={card[0].image} firstHidden={firstHidden}/>
+                        <Card key={card[0].code} source={card[0].image} firstHidden={firstHidden} />
                     ) 
                 })}
             </div>
             {showResult ? (
                 <div className={`result-box ${fade}`}>
                     <div className="result-box-message">{message}</div>
-                    <button className="user-button" onClick={playAgainHandler}>PLAY AGAIN</button>
+                    <Button text={buttonText} onClick={playAgainHandler} />
                 </div>
             ) : null}   
             <div className="player-hand">
                 {playerHand.map((card) => {
                     return (
-                        <Card source={card[0].image} key={card[0].code}/>
+                        <Card source={card[0].image} key={card[0].code} />
                     ) 
                 })}
             </div>
             <div className="user-interface-bg"></div>
             <div className="user-interface">
-                <button className="user-button" onClick={onHitHandler} disabled={isDisabled}>HIT</button>
+                <Button text="HIT" onClick={onHitHandler} disabled={isDisabled} />
                 <div className="counter">{playerCount}</div>
-                <button className="user-button" onClick={onStandHandler} disabled={isDisabled}>STAND</button>
+                <Button text="STAND" onClick={onStandHandler} disabled={isDisabled} />
             </div>
         </div>
     );
