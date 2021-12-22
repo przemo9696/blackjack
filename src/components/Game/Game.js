@@ -10,6 +10,7 @@ const TheGame = () => {
     const [deck, setDeck] = useState(null);
     const [playerCount, setPlayerCount] = useState(0);
     const [croupierCount, setCroupierCount] = useState(0);
+    const [temporaryCount, setTemporaryCount] = useState(0);
     const [playerHand, setPlayerHand] = useState([]);
     const [croupierHand, setCroupierHand] = useState([]);
     const [message, setMessage] = useState('');
@@ -19,13 +20,13 @@ const TheGame = () => {
     const [firstHidden, setFirstHidden] = useState(true);
     const [buttonText, setButtonText] = useState('PLAY');
     const isMount = useRef(false);
-    let fade = isStarted ? 'fade-out' : 'fade-in';
+    const fade = isStarted ? 'fade-out' : 'fade-in';
     
     useEffect(() => {
         fetchDeck(setDeck);
         startGame();
     }, []);
-  
+
      useEffect(() => {
         if(isStarted) {
             drawCard(playerHand, playerCount, setPlayerCount, deck);
@@ -33,9 +34,9 @@ const TheGame = () => {
                 drawCard(playerHand, playerCount, setPlayerCount, deck);
             }, 700);
             setTimeout(() => {
-                drawCard(croupierHand, croupierCount, setCroupierCount, deck);
+                drawCard(croupierHand, temporaryCount, setTemporaryCount, deck, temporaryCount);
                 setTimeout(() => {
-                    drawCard(croupierHand, croupierCount, setCroupierCount, deck);
+                    drawCard(croupierHand, croupierCount, setCroupierCount, deck, temporaryCount);
                 }, 500);
             }, 1500)
             setTimeout(() => {
@@ -57,22 +58,19 @@ const TheGame = () => {
 
     useEffect(() => {
         if(isStarted === true && firstHidden === false) {
-
             if(croupierCount <= 21 && croupierCount > playerCount) {
                 setShowResult(true);
                 setIsDisabled(true);
                 setMessage('You lost!');
                 setIsStarted(false);
             }
-
             else {
                 
                 if(croupierCount < 17) {
                     setTimeout(() => {
                         drawCard(croupierHand, croupierCount, setCroupierCount, deck);
-                    }, 1000);
+                    }, 500);
                 }
-                
                 else if(playerCount > croupierCount && croupierCount < 21) {
                     setShowResult(true);
                     setIsDisabled(true);
@@ -85,7 +83,6 @@ const TheGame = () => {
                     setMessage('You won!');
                     setIsStarted(false);
                 }
-                
                 else if(croupierCount === playerCount) {
                     setShowResult(true);
                     setIsDisabled(true);
@@ -94,7 +91,6 @@ const TheGame = () => {
                 }
             }
         }
-    
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [croupierCount]);
 
@@ -111,6 +107,7 @@ const TheGame = () => {
     const onStandHandler = async () => {
         setIsDisabled(true);
         setFirstHidden(false);
+        setCroupierCount(temporaryCount + croupierCount);
             if(croupierCount > playerCount) {
                 setMessage('You lost!');
                 setIsStarted(false);
@@ -126,11 +123,6 @@ const TheGame = () => {
                 setIsStarted(false);
                 setShowResult(true);
             }
-            else {                    
-                setTimeout(() => {
-                    drawCard(croupierHand, croupierCount, setCroupierCount, deck)
-                }, 500);
-            } 
     };
 
     const playAgainHandler = () => {
@@ -144,6 +136,7 @@ const TheGame = () => {
         setPlayerCount(0);   
         setCroupierHand([]);
         setCroupierCount(0);
+        setTemporaryCount(0);
         isMount.current = false;
     }
 

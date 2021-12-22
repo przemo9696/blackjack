@@ -1,11 +1,11 @@
 import {fetchCard} from '../components/Game/Fetch.js';
 
-export const drawCard = async (hand, count, countSetter, deck) => {
+export const drawCard = async (hand, count, countSetter, deck, temporaryCount = 0) => {
     let card = await fetchCard(deck, 1);
     hand.push(card);
 
     if (card[0].value === 'ACE') {
-        if(count + 11 <= 21) {
+        if(count + temporaryCount + 11 <= 21) {
             countSetter(prevCount => prevCount + 11);
         }
         else {
