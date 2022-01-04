@@ -20,3 +20,15 @@
   .hidden:nth-child(1) img{
     content: url('../../assets/card_reverse.png');
 }
+
+@media screen and (max-width: 620px) {
+  .card img {
+    width: 16vh;
+  }
+
+  .card {
+    right: 6.5vh;
+    width: 3vh;
+  }
+}
+  

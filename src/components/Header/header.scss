@@ -11,6 +11,8 @@
 }
 
 .logo{
+    user-select: none;
+    text-decoration: none;
     display: flex;
     align-items: center;
     color: white;
@@ -24,4 +26,10 @@
     0 0 34px rgba(4, 250, 24, 0.78),
     0 0 54px rgba(24, 123, 230, 0.92);
 } 
+
+@media screen and (max-width: 620px) {
+    .logo {
+        font-size: 4.5vh;
+    }
+}
 

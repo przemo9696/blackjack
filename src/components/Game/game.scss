@@ -1,5 +1,5 @@
 .main {
-
+    user-select: none;
     display: flex;
     text-align: center;
     flex-direction: column;
@@ -196,13 +196,37 @@ button.user-button:disabled {
   z-index: 10;
 }
 
-@media screen and (max-width: 600px) {
-  .card img {
-    width: 16vh;
+@media screen and (max-width: 620px) {
+  .user-interface {
+    width: 95%;
   }
 
-  .card {
-    right: 6.5vh;
+  .user-interface-bg {
+    width: 95%;
+  }
+
+  .player-hand {
+    height: 22vh;
+    padding: 4vh;
+  }
+
+  .croupier-hand {
+    height: 28vh;
+    margin: 4vh;
+  }
+
+  .croupier-score-bg {
+    width: 50%;
+    bottom: 80vh;
+    height: 10vh;
+    position: absolute;
+  }
+}
+
+@media screen and (max-width: 325px) {
+  .counter {
+    width: 25px;
+    font-size: 1.4rem;
   }
 }
   
