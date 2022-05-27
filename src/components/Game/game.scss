@@ -142,6 +142,7 @@ button.user-button:disabled {
 }
 
 .result-box .user-button {
+  margin-top: 1vh;
   width: 60%;
   max-width: 9.5rem;
 }
@@ -187,12 +188,18 @@ button.user-button:disabled {
 
 @media screen and (max-height: 800px) {
   .result-box .user-button {
+    margin-top: 0.5vh;
     font-size: 0.9rem;
+  }
+
+  .result-box-message {
+    margin-bottom: 2.5vh;
   }
 }
 
 @media screen and (max-height: 600px) {
-  .result-box-message{
-    margin-bottom: 1vh; 
+
+  .result-box-message {
+    margin-bottom: 1.2vh; 
   }
 }
