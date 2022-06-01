@@ -147,6 +147,11 @@ button.user-button:disabled {
   max-width: 9.5rem;
 }
 
+.two-buttons .user-button {
+  min-width: 3rem;
+  margin: 1vh 0.3rem;
+}
+
 .croupier-hand {
   z-index: 13;
   justify-content: center;
@@ -198,7 +203,6 @@ button.user-button:disabled {
 }
 
 @media screen and (max-height: 600px) {
-
   .result-box-message {
     margin-bottom: 1.2vh; 
   }
