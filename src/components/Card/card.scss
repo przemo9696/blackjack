@@ -3,7 +3,7 @@
     width: 20vh;
   }
   
-  @keyframes cardAnimation {
+  @keyframes card-animation {
     0% {bottom: 100px;}
     
     100% {bottom: 0px;}
@@ -13,8 +13,17 @@
     position: relative;
     right: 7.5vh;
     width: 4vh;
-    animation-name: cardAnimation;
+    animation-name: card-animation;
+    animation-iteration-count: 1;
     animation-duration: 1s;
+  }
+
+  .player-hand-one .card:nth-child(1) {
+    animation-name: none;
+  }
+
+  .player-hand-two .card:nth-child(1) {
+    animation-name: none;
   }
   
   .hidden:nth-child(1) img{
@@ -27,8 +36,16 @@
   }
 
   .card {
+    top: 3vh;
     right: 6.5vh;
     width: 3vh;
+    animation-name: card-animation2;
+  }
+
+  @keyframes card-animation2 {
+    0% {top: -25px;}
+    
+    100% {bottom: 0px;}
   }
 }
   

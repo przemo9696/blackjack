@@ -68,23 +68,55 @@ button.user-button:disabled {
   padding: 2vh;
 }
 
+.player-hands {
+  z-index: 14;
+  width: 100%;
+  height: 30vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 2vh 0 2vh 0;
+}
+
+@keyframes split-animation {
+  0% {
+    width: 0%;
+  }
+
+  100% {
+    width: 50%;
+  }
+}
+
+.player-hand-one {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  animation-name: split-animation;
+  animation-fill-mode: forwards;
+  animation-duration: 1s;
+}
+
+ .player-hand-two {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    animation-name: split-animation;
+    animation-fill-mode: forwards;
+    animation-duration: 1s;
+}
+
+.player-hand-two.first {
+  opacity: 0.5;
+}
+
+.player-hand-one.second {
+  opacity: 0.5;
+}
+
 .card img {
   z-index: 12;
   width: 20vh;
-}
-
-@keyframes cardAnimation {
-  0% {bottom: 100px;}
-
-  100% {bottom: 0px;}
-}
-
-.card {
-  position: relative;
-  right: 7.5vh;
-  width: 4vh;
-  animation-name: cardAnimation;
-  animation-duration: 1s;
 }
 
 .result-box {
@@ -104,12 +136,20 @@ button.user-button:disabled {
   box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
-.result-box-message{
+.result-box-message {
   margin-top: 3.2vh;
   margin-bottom: 3vh;
   font-size: clamp(1.2rem, 3.5vh, 2.5rem);
   font-weight: 600;
   color: white;
+}
+
+.result-box-message-2 {
+  font-size: clamp(0.8rem, 2.5vh, 2.5rem);
+  margin-top: 2.2vh;
+  margin-bottom: 1vh;
+  color: white;
+  font-weight: 600;
 }
 
 .two-buttons {
@@ -191,6 +231,8 @@ button.user-button:disabled {
   z-index: 10;
 }
 
+
+
 @media screen and (max-height: 800px) {
   .result-box .user-button {
     margin-top: 0.5vh;
@@ -200,10 +242,23 @@ button.user-button:disabled {
   .result-box-message {
     margin-bottom: 2.5vh;
   }
+  .result-box-message-2 {
+    margin-top: 1.8vh;
+    margin-bottom: 1.2vh;
+  }
 }
 
 @media screen and (max-height: 600px) {
   .result-box-message {
     margin-bottom: 1.2vh; 
+  }
+
+  .result-box-message-2 {
+    margin-top: 1.2vh;
+    margin-bottom: 0.8vh;
+  }
+  .result-box-message-2 + .user-button{
+   // min-height: 5vh;
+    font-size: 0.8rem;
   }
 }
