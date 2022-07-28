@@ -1,151 +1,287 @@
-import React, {useState, useEffect, useRef} from 'react';
+import React, { useState, useEffect } from 'react';
 import './../Game/game.scss';
-import {fetchDeck, shuffleDeck} from './../Game/Fetch.js';
+import { fetchDeck, shuffleDeck } from './../Game/Fetch.js';
+import { HANDS, MESSAGES, FADE, BUTTON, CARD } from './../Game/Constants.js';
 import Card from './../Card/Card.js';
-import {drawCard} from '../../helpers/drawCard.js';
+import { drawCard } from './../../helpers/DrawCard.js';
+import { compare } from '../../helpers/Compare';
+import { wait } from '../../helpers/Wait';
 import Button from './../Button/Button.js';
 
+// starting card dealing (2 aces gives 22)
+// starting dealing does not changing counter values.
+
 const TheGame = () => {
-    
+
     const [deck, setDeck] = useState(null);
-    const [playerCount, setPlayerCount] = useState(0);
-    const [croupierCount, setCroupierCount] = useState(0);
+    const [playerCounter, setPlayerCounter] = useState(0);
+    const [secondPlayerCounter, setSecondPlayerCounter] = useState(0);
+    const [croupierCounter, setCroupierCounter] = useState(0);
     const [temporaryCount, setTemporaryCount] = useState(0);
     const [playerHand, setPlayerHand] = useState([]);
+    const [secondPlayerHand, setSecondPlayerHand] = useState([]); 
+    const [currentPlayerHand, setCurrentPlayerHand] = useState(HANDS.FIRST);
+    const [isSplittable, setIsSplittable] = useState(false);
+    const [isSplitted, setIsSplitted] = useState(false);
+    const [splittedResultOne, setSplittedResultOne] = useState('');
+    const [splittedResultTwo, setSplittedResultTwo] = useState('');
     const [croupierHand, setCroupierHand] = useState([]);
     const [message, setMessage] = useState('');
     const [isDisabled, setIsDisabled] = useState(false);
     const [isStarted, setIsStarted] = useState(false);
     const [showResult, setShowResult] = useState(false);
     const [firstHidden, setFirstHidden] = useState(true);
-    const [buttonText, setButtonText] = useState('PLAY');
-    const isMount = useRef(false);
-    const fade = isStarted ? 'fade-out' : 'fade-in';
-    
+    const [toggleFade, setToggleFade] = useState(false);
+    const fade = toggleFade ? FADE.OUT : FADE.IN;
+
     useEffect(() => {
         fetchDeck(setDeck);
         startGame();
     }, []);
 
-     useEffect(() => {
+    useEffect(() => {
+        const dealCards = async () => {
+            await drawCard(setPlayerHand, playerCounter, setPlayerCounter, deck);
+            await wait();
+            await drawCard(setPlayerHand, playerCounter, setPlayerCounter, deck);
+            await wait();
+            await drawCard(setCroupierHand, temporaryCount, setTemporaryCount, deck, temporaryCount);
+            await wait();
+            await drawCard(setCroupierHand, croupierCounter, setCroupierCounter, deck, temporaryCount);
+        }
         if(isStarted) {
-            drawCard(playerHand, playerCount, setPlayerCount, deck);
-            setTimeout(() => {
-                drawCard(playerHand, playerCount, setPlayerCount, deck);
-            }, 700);
-            setTimeout(() => {
-                drawCard(croupierHand, temporaryCount, setTemporaryCount, deck, temporaryCount);
-                setTimeout(() => {
-                    drawCard(croupierHand, croupierCount, setCroupierCount, deck, temporaryCount);
-                }, 500);
-            }, 1500)
-            setTimeout(() => {
-                setIsDisabled(false);
-                setButtonText('PLAY AGAIN');
-            }, 2000)
+             dealCards();
         }
     }, [isStarted]);
 
     useEffect(() => {
-        if(playerCount > 21) {
-            setShowResult(true);
-            setIsDisabled(true);
-            setMessage('You lost!');
-            setIsStarted(false);
+        if(playerHand[1] && !isSplitted && !playerHand[2]) {
+            if(playerHand[0][0].code[0] === playerHand[1][0].code[0])  {
+                setToggleFade(false);
+                setIsSplittable(true);
+                setIsDisabled(true);
+                setMessage(MESSAGES.SPLIT);
+                setTimeout(() => {
+                    setShowResult(true);
+                }, 500);
+            }
         }
-    }, [playerCount]);
-
+    }, [playerHand])
 
     useEffect(() => {
-        if(isStarted === true && firstHidden === false) {
-            if(croupierCount <= 21 && croupierCount > playerCount) {
-                setShowResult(true);
-                setIsDisabled(true);
-                setMessage('You lost!');
-                setIsStarted(false);
+        if(croupierHand[1] && !isSplittable) {
+            setIsDisabled(false);
+        }
+    }, [croupierHand[1]])
+
+    useEffect(() => {
+        if(playerCounter > 21) {
+            if(isSplitted) {
+                setCurrentPlayerHand(HANDS.SECOND);
+                return
             }
-            else {
-                
-                if(croupierCount < 17) {
+            setToggleFade(false);
+            setShowResult(true);
+            setIsDisabled(true);
+            setMessage(MESSAGES.LOSE);
+            setIsStarted(false);
+        }
+    }, [playerCounter]);
+
+    useEffect(() => {
+        if(secondPlayerCounter > 21) {
+            setCroupierCounter(temporaryCount + croupierCounter);
+            setFirstHidden(false);
+            setToggleFade(false);
+            setIsDisabled(true);
+            setIsStarted(false);
+            compare(croupierCounter, playerCounter, secondPlayerCounter, setSplittedResultOne, setSplittedResultTwo);
+            setTimeout(() => {
+                setShowResult(true);
+            }, 500)
+        }
+    }, [secondPlayerCounter])
+
+    useEffect(() => {
+        if(isSplitted) {
+            if(playerCounter >= croupierCounter || secondPlayerCounter >= croupierCounter) {
+                if(croupierCounter < 17 && (playerCounter <= 21 || secondPlayerCounter <= 21)) {
                     setTimeout(() => {
-                        drawCard(croupierHand, croupierCount, setCroupierCount, deck);
+                        drawCard(setCroupierHand, croupierCounter, setCroupierCounter, deck);
                     }, 500);
                 }
-                else if(playerCount > croupierCount && croupierCount < 21) {
-                    setShowResult(true);
-                    setIsDisabled(true);
-                    setMessage('You won!');
-                    setIsStarted(false);
-                }
-                else if(croupierCount > 21) {
-                    setShowResult(true);
-                    setIsDisabled(true);
-                    setMessage('You won!');
-                    setIsStarted(false);
-                }
-                else if(croupierCount === playerCount) {
-                    setShowResult(true);
-                    setIsDisabled(true);
-                    setMessage('Draw!');
-                    setIsStarted(false);
+                else {
+                    compare(croupierCounter, playerCounter, secondPlayerCounter, setSplittedResultOne, setSplittedResultTwo);
+                    setTimeout(() => {
+                        setShowResult(true);
+                    }, 500);
                 }
             }
+            else {
+                compare(croupierCounter, playerCounter, secondPlayerCounter, setSplittedResultOne, setSplittedResultTwo);
+                setTimeout(() => {
+                    setShowResult(true);
+                }, 500);
+            }
+        }
+        if(!isSplitted) {
+            if(isStarted === true && firstHidden === false) {
+                if(croupierCounter <= 21 && croupierCounter > playerCounter) {
+                    setShowResult(true);
+                    setIsDisabled(true);
+                    setMessage(MESSAGES.LOSE);
+                    setIsStarted(false);
+                }
+                else {   
+                    if(croupierCounter < 17) {
+                        setTimeout(() => {
+                            drawCard(setCroupierHand, croupierCounter, setCroupierCounter, deck);
+                        }, 500);
+                    }
+                    else if(playerCounter > croupierCounter && croupierCounter < 21) {
+                        setShowResult(true);
+                        setIsDisabled(true);
+                        setMessage(MESSAGES.WIN);
+                        setIsStarted(false);
+                    }
+                    else if(croupierCounter > 21) {
+                        setShowResult(true);
+                        setIsDisabled(true);
+                        setMessage(MESSAGES.WIN);
+                        setIsStarted(false);
+                    }
+                    else if(croupierCounter === playerCounter) {
+                        setShowResult(true);
+                        setIsDisabled(true);
+                        setMessage(MESSAGES.DRAW);
+                        setIsStarted(false);
+                    }
+                }
+            }    
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [croupierCount]);
+    }, [croupierCounter]);
 
     const startGame = () => {
         setIsDisabled(true);
-        setMessage('Blackjack');
+        setMessage(MESSAGES.BLACKJACK);
         setShowResult(true);
     } 
     
-    const onHitHandler = async () => {
-       drawCard(playerHand, playerCount, setPlayerCount, deck)
+    const onHitHandler = () => {
+        if(currentPlayerHand === HANDS.FIRST) {
+            drawCard(setPlayerHand, playerCounter, setPlayerCounter, deck)
+        }
+        else {
+            drawCard(setSecondPlayerHand, secondPlayerCounter, setSecondPlayerCounter, deck)
+        }
     };
 
-    const onStandHandler = async () => {
-        setIsDisabled(true);
-        setFirstHidden(false);
-        setCroupierCount(temporaryCount + croupierCount);
-            if(croupierCount > playerCount) {
-                setMessage('You lost!');
-                setIsStarted(false);
-                setShowResult(true);
+    const onStandHandler = () => {
+        if(isSplitted && currentPlayerHand === HANDS.FIRST) {
+            setCurrentPlayerHand(HANDS.SECOND);
+        }
+        else {
+            setIsDisabled(true);
+            setToggleFade(false);
+            setFirstHidden(false);
+            setCroupierCounter(temporaryCount + croupierCounter);
+            if(!isSplitted) {
+                if(croupierCounter > playerCounter) {
+                    setMessage(MESSAGES.LOSE);
+                    setIsStarted(false);
+                    setShowResult(true); 
+                }
+                else if(playerCounter > croupierCounter && croupierCounter > 17) {
+                    setMessage(MESSAGES.WIN);
+                    setIsStarted(false);
+                    setShowResult(true);
+                }
+                else if(playerCounter === croupierCounter && croupierCounter > 17) {
+                    setMessage(MESSAGES.DRAW);
+                    setIsStarted(false);
+                    setShowResult(true);
+                }
             }
-            else if(playerCount > croupierCount && croupierCount > 17) {
-                setMessage('You won!');
+            else {
                 setIsStarted(false);
-                setShowResult(true);
+                if(croupierCounter > 17) {
+                    setTimeout(() => {
+                        setShowResult(true);
+                    }, 500)
+                }
             }
-            else if(playerCount === croupierCount && croupierCount > 17) {
-                setMessage('Draw!');
-                setIsStarted(false);
-                setShowResult(true);
-            }
+        }
     };
 
     const playAgainHandler = () => {
-        setTimeout(() => {
-            setShowResult(false);            
-        }, 1000);
         setIsStarted(true);
         setFirstHidden(true);
         shuffleDeck(setDeck, deck)
         setPlayerHand([]);
-        setPlayerCount(0);   
+        setPlayerCounter(0);
+        setSecondPlayerHand([]);
+        setSecondPlayerCounter(0);
+        setIsSplittable(false);
+        setIsSplitted(false);
+        setCurrentPlayerHand(HANDS.FIRST);   
         setCroupierHand([]);
-        setCroupierCount(0);
+        setCroupierCounter(0);
         setTemporaryCount(0);
-        isMount.current = false;
+        setToggleFade(true);
+        setSplittedResultOne('');
+        setSplittedResultTwo('');
+        setTimeout(() => {
+            setShowResult(false);            
+        }, 500);
     }
 
+    const splitHandler = () => {
+        const tempHand = playerHand;
+        const popped = Array.prototype.pop.call(tempHand);
+        if (tempHand[0][0].value === CARD.ACE) {
+            setPlayerCounter(11);
+        }
+        else if (tempHand[0][0].value === CARD.JACK || tempHand[0][0].value === CARD.QUEEN || tempHand[0][0].value === CARD.KING) {
+            setPlayerCounter(10);
+        }
+        else {
+            setPlayerCounter(Number(tempHand[0][0].value));
+        } 
+
+        if (popped[0].value === CARD.ACE) {
+            setSecondPlayerCounter(prevCount => prevCount + 11);
+        }
+        else if (popped[0].value === CARD.JACK || popped[0].value === CARD.QUEEN || popped[0].value === CARD.KING) {
+            setSecondPlayerCounter(prevCount => prevCount + 10);
+        }
+        else {
+            setSecondPlayerCounter(prevCount => prevCount + Number(popped[0].value));
+        } 
+        setSecondPlayerHand([popped]);
+        setPlayerHand(tempHand);
+        setIsSplitted(true);
+        setIsDisabled(false);
+        setToggleFade(true);
+        setTimeout(() => {
+            setShowResult(false);            
+        }, 500);
+    }
+
+    const closeWindowHandler = () => {
+        setIsDisabled(false);
+        setToggleFade(true);
+        setTimeout(() => {
+            setShowResult(false);          
+            setIsSplittable(false);
+        }, 500);
+    }
 
     return (
         <div className="main">
             <div className="croupier-score-bg"></div>
-            <div className="croupier-score" >
-                <div className="counter">{croupierCount}</div>
+            <div className="croupier-score">
+                <div className="counter">{croupierCounter}</div>
             </div>
             <div className="croupier-hand">
             {croupierHand.map((card) => {
@@ -156,22 +292,57 @@ const TheGame = () => {
             </div>
             {showResult ? (
                 <div className={`result-box ${fade}`}>
-                    <div className="result-box-message">{message}</div>
-                    <Button text={buttonText} onClick={playAgainHandler} />
+                    {isSplitted ?
+                        <div>
+                            <div className="result-box-message-2">{splittedResultOne}</div>
+                            <div className="result-box-message-2">{splittedResultTwo}</div>
+                            <Button text={BUTTON.PLAY} onClick={playAgainHandler} />
+                        </div> :
+                        <div>
+                            <div className="result-box-message">{message}</div>
+                            {isSplittable ?
+                                <div className="two-buttons">
+                                    <Button text={BUTTON.YES} onClick={splitHandler} />
+                                    <Button text={BUTTON.NO} onClick={closeWindowHandler} />
+                                </div>
+                                : <Button text={BUTTON.PLAY} onClick={playAgainHandler} />}
+                        </div>}
                 </div>
             ) : null}   
-            <div className="player-hand">
+            {isSplitted ? 
+            <div className='player-hands'>
+                <div className={`player-hand-one ${currentPlayerHand}`}>
+                    {playerHand.map((card) => {
+                        return (
+                            <Card source={card[0].image} key={card[0].code} />
+                        ) 
+                    })}
+                </div>
+                <div className={`player-hand-two ${currentPlayerHand}`}>
+                    {secondPlayerHand?.map((card) => {
+                            return (
+                                <Card source={card[0].image} key={card[0].code} />
+                            ) 
+                    })}
+                </div>
+            </div>
+            : <div className="player-hand">
                 {playerHand.map((card) => {
                     return (
                         <Card source={card[0].image} key={card[0].code} />
                     ) 
                 })}
             </div>
+            }
             <div className="user-interface-bg"></div>
             <div className="user-interface">
-                <Button text="HIT" onClick={onHitHandler} disabled={isDisabled} />
-                <div className="counter">{playerCount}</div>
-                <Button text="STAND" onClick={onStandHandler} disabled={isDisabled} />
+                <Button text={BUTTON.HIT} onClick={onHitHandler} disabled={isDisabled} />
+                <div className="counter">{currentPlayerHand === HANDS.FIRST ? playerCounter : secondPlayerCounter}</div>
+                <Button text={BUTTON.STAND} onClick={onStandHandler} disabled={isDisabled} />
+                <Button text="test" onClick={() => {
+                    splitHandler();
+                }
+                    } />
             </div>
         </div>
     );

@@ -1,11 +1,11 @@
 export const HANDS = {
-    FIRST: 'FIRST',
-    SECOND: 'SECOND',
+    FIRST: 'first',
+    SECOND: 'second',
 }
 
 export const MESSAGES = {
     BLACKJACK: 'Blackjack',
-    PLAYA_GAIN: 'Play Again',
+    PLAY_AGAIN: 'Play Again',
     WIN: 'You Won!',
     LOSE: 'You Lost!',
     DRAW: 'Draw!',
@@ -23,4 +23,11 @@ export const BUTTON ={
     NO: 'NO',
     HIT: 'HIT',
     STAND: 'STAND',
+}
+
+export const CARD = {
+    ACE: 'ACE',
+    KING: 'KING',
+    QUEEN: 'QUEEN',
+    JACK: 'JACK',
 }
