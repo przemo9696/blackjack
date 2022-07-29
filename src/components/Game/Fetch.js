@@ -3,13 +3,14 @@
 export const fetchDeck = async (props) => {
     const response = await fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1');
     const responseJSON = await response.json();
-    props(responseJSON);
+    return props(responseJSON);
 }
 
 export const shuffleDeck = async (props, deck) => {
     const response = await fetch(`https://deckofcardsapi.com/api/deck/${deck?.deck_id}/shuffle/?deck_count=1`);
     const responseJSON = await response.json();
-    props(responseJSON);
+    console.log(responseJSON)
+    return props(responseJSON);
 }
 
 export const fetchCard = async (deck, count) => {
