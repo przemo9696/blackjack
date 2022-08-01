@@ -80,7 +80,7 @@ button.user-button:disabled {
 
 @keyframes split-animation {
   0% {
-    width: 0%;
+    width: 4vh;
   }
 
   100% {
@@ -89,6 +89,7 @@ button.user-button:disabled {
 }
 
 .player-hand-one {
+  width: 4vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -98,6 +99,7 @@ button.user-button:disabled {
 }
 
  .player-hand-two {
+    width: 4vh;
     display: flex;
     flex-direction: row;
     justify-content: center;
