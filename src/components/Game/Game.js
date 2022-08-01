@@ -8,8 +8,7 @@ import { compare } from '../../helpers/Compare';
 import { wait } from '../../helpers/Wait';
 import Button from './../Button/Button.js';
 
-// starting card dealing (2 aces gives 22)
-// starting dealing does not changing counter values.
+// press test button -> split result issues
 
 const TheGame = () => {
 
@@ -41,13 +40,14 @@ const TheGame = () => {
 
     useEffect(() => {
         const dealCards = async () => {
-            await drawCard(setPlayerHand, playerCounter, setPlayerCounter, deck);
             await wait();
-            await drawCard(setPlayerHand, playerCounter, setPlayerCounter, deck);
+            await drawCard(setPlayerHand, setPlayerCounter, deck);
             await wait();
-            await drawCard(setCroupierHand, temporaryCount, setTemporaryCount, deck, temporaryCount);
+            await drawCard(setPlayerHand, setPlayerCounter, deck);
             await wait();
-            await drawCard(setCroupierHand, croupierCounter, setCroupierCounter, deck, temporaryCount);
+            await drawCard(setCroupierHand, setTemporaryCount, deck);
+            await wait();
+            await drawCard(setCroupierHand, setCroupierCounter, deck);
         }
         if(isStarted) {
              dealCards();
@@ -107,7 +107,7 @@ const TheGame = () => {
             if(playerCounter >= croupierCounter || secondPlayerCounter >= croupierCounter) {
                 if(croupierCounter < 17 && (playerCounter <= 21 || secondPlayerCounter <= 21)) {
                     setTimeout(() => {
-                        drawCard(setCroupierHand, croupierCounter, setCroupierCounter, deck);
+                        drawCard(setCroupierHand, setCroupierCounter, deck);
                     }, 500);
                 }
                 else {
@@ -135,7 +135,7 @@ const TheGame = () => {
                 else {   
                     if(croupierCounter < 17) {
                         setTimeout(() => {
-                            drawCard(setCroupierHand, croupierCounter, setCroupierCounter, deck);
+                            drawCard(setCroupierHand, setCroupierCounter, deck);
                         }, 500);
                     }
                     else if(playerCounter > croupierCounter && croupierCounter < 21) {
@@ -170,10 +170,10 @@ const TheGame = () => {
     
     const onHitHandler = () => {
         if(currentPlayerHand === HANDS.FIRST) {
-            drawCard(setPlayerHand, playerCounter, setPlayerCounter, deck)
+            drawCard(setPlayerHand, setPlayerCounter, deck)
         }
         else {
-            drawCard(setSecondPlayerHand, secondPlayerCounter, setSecondPlayerCounter, deck)
+            drawCard(setSecondPlayerHand, setSecondPlayerCounter, deck)
         }
     };
 
@@ -185,7 +185,12 @@ const TheGame = () => {
             setIsDisabled(true);
             setToggleFade(false);
             setFirstHidden(false);
-            setCroupierCounter(temporaryCount + croupierCounter);
+            if(croupierHand[0].code === CARD.ACE && croupierHand[1].code === CARD.ACE) {
+                setCroupierCounter(croupierCounter + 1);
+            }
+            else {
+                setCroupierCounter(temporaryCount + croupierCounter);
+            }
             if(!isSplitted) {
                 if(croupierCounter > playerCounter) {
                     setMessage(MESSAGES.LOSE);
@@ -213,24 +218,24 @@ const TheGame = () => {
             }
         }
     };
-
+    
     const playAgainHandler = () => {
-        setIsStarted(true);
         setFirstHidden(true);
         shuffleDeck(setDeck, deck)
         setPlayerHand([]);
         setPlayerCounter(0);
         setSecondPlayerHand([]);
         setSecondPlayerCounter(0);
-        setIsSplittable(false);
-        setIsSplitted(false);
         setCurrentPlayerHand(HANDS.FIRST);   
         setCroupierHand([]);
         setCroupierCounter(0);
         setTemporaryCount(0);
-        setToggleFade(true);
+        setIsStarted(true);
         setSplittedResultOne('');
         setSplittedResultTwo('');
+        setToggleFade(true);
+        setIsSplittable(false);
+        setIsSplitted(false);
         setTimeout(() => {
             setShowResult(false);            
         }, 500);
@@ -260,11 +265,11 @@ const TheGame = () => {
         } 
         setSecondPlayerHand([popped]);
         setPlayerHand(tempHand);
-        setIsSplitted(true);
         setIsDisabled(false);
         setToggleFade(true);
+        setIsSplitted(true);
         setTimeout(() => {
-            setShowResult(false);            
+            setShowResult(false);      
         }, 500);
     }
 
@@ -292,7 +297,15 @@ const TheGame = () => {
             </div>
             {showResult ? (
                 <div className={`result-box ${fade}`}>
-                    {isSplitted ?
+                    {isSplitted ? 
+                        isSplittable ? 
+                        <div>
+                            <div className="result-box-message">{message}</div>
+                            <div className="two-buttons">
+                                <Button text={BUTTON.YES} onClick={splitHandler} />
+                                <Button text={BUTTON.NO} onClick={closeWindowHandler} />
+                            </div>
+                        </div> :   
                         <div>
                             <div className="result-box-message-2">{splittedResultOne}</div>
                             <div className="result-box-message-2">{splittedResultTwo}</div>
@@ -340,7 +353,13 @@ const TheGame = () => {
                 <div className="counter">{currentPlayerHand === HANDS.FIRST ? playerCounter : secondPlayerCounter}</div>
                 <Button text={BUTTON.STAND} onClick={onStandHandler} disabled={isDisabled} />
                 <Button text="test" onClick={() => {
-                    splitHandler();
+                    setToggleFade(false);
+                    setIsSplittable(true);
+                    setIsDisabled(true);
+                    setMessage(MESSAGES.SPLIT);
+                    setTimeout(() => {
+                        setShowResult(true);
+                    }, 500);
                 }
                     } />
             </div>

@@ -1,7 +1,7 @@
 import { CARD } from '../components/Game/Constants.js';
 import { fetchCard } from '../components/Game/Fetch.js';
 
-export const drawCard = async (handSetter, count, countSetter, deck, temporaryCount = 0) => {
+export const drawCard = async (handSetter, countSetter, deck) => {
     const card = await fetchCard(deck, 1);
     handSetter((oldHand) => [...oldHand, card])
 
