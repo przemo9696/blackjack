@@ -231,13 +231,13 @@ const TheGame = () => {
         setCroupierCounter(0);
         setTemporaryCount(0);
         setIsStarted(true);
-        setSplittedResultOne('');
-        setSplittedResultTwo('');
         setToggleFade(true);
         setIsSplittable(false);
-        setIsSplitted(false);
         setTimeout(() => {
             setShowResult(false);            
+            setIsSplitted(false);
+            setSplittedResultOne('');
+            setSplittedResultTwo('');
         }, 500);
     }
 
@@ -269,7 +269,8 @@ const TheGame = () => {
         setToggleFade(true);
         setIsSplitted(true);
         setTimeout(() => {
-            setShowResult(false);      
+            setShowResult(false);
+            setIsSplittable(false);
         }, 500);
     }
 
@@ -313,7 +314,7 @@ const TheGame = () => {
                         </div> :
                         <div>
                             <div className="result-box-message">{message}</div>
-                            {isSplittable ?
+                            {isSplittable ?  
                                 <div className="two-buttons">
                                     <Button text={BUTTON.YES} onClick={splitHandler} />
                                     <Button text={BUTTON.NO} onClick={closeWindowHandler} />
