@@ -1,5 +1,4 @@
 export const compare = (countOne, countTwo, countThree, setResultOne, setResultTwo) => {
-    console.log(countOne,countTwo,countThree)
     if((countOne > countTwo && countOne <= 21) || countTwo > 21) {
         setResultOne('Left hand - Lose!');
     }

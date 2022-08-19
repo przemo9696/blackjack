@@ -37,7 +37,6 @@ const TheGame = () => {
     }, []);
 
     useEffect(() => {
-        console.log('starting')
         const dealCards = async () => {
             await wait();
             await drawCard(setPlayerHand, setPlayerCounter, deck);
@@ -102,12 +101,10 @@ const TheGame = () => {
     }, [secondPlayerCounter])
 
     useEffect(() => {
-        console.log('this works')
         if(isSplitted) {
             if(playerCounter >= croupierCounter || secondPlayerCounter >= croupierCounter) {
                 if(croupierCounter < 17 && (playerCounter <= 21 || secondPlayerCounter <= 21) && croupierCounter !== 0) {
                     setTimeout(() => {
-                        console.log('here')
                         drawCard(setCroupierHand, setCroupierCounter, deck);
                     }, 500);
                 }
@@ -354,16 +351,6 @@ const TheGame = () => {
                 <Button text={BUTTON.HIT} onClick={onHitHandler} disabled={isDisabled} />
                 <div className="counter">{currentPlayerHand === HANDS.FIRST ? playerCounter : secondPlayerCounter}</div>
                 <Button text={BUTTON.STAND} onClick={onStandHandler} disabled={isDisabled} />
-                <Button text="test" onClick={() => {
-                    setToggleFade(false);
-                    setIsSplittable(true);
-                    setIsDisabled(true);
-                    setMessage(MESSAGES.SPLIT);
-                    setTimeout(() => {
-                        setShowResult(true);
-                    }, 500);
-                }
-                    } />
             </div>
         </div>
     );
