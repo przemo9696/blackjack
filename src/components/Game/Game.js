@@ -8,8 +8,6 @@ import { compare } from '../../helpers/Compare';
 import { wait } from '../../helpers/Wait';
 import Button from './../Button/Button.js';
 
-// press test button -> split result issues
-
 const TheGame = () => {
 
     const [deck, setDeck] = useState(null);
@@ -353,16 +351,6 @@ const TheGame = () => {
                 <Button text={BUTTON.HIT} onClick={onHitHandler} disabled={isDisabled} />
                 <div className="counter">{currentPlayerHand === HANDS.FIRST ? playerCounter : secondPlayerCounter}</div>
                 <Button text={BUTTON.STAND} onClick={onStandHandler} disabled={isDisabled} />
-                <Button text="test" onClick={() => {
-                    setToggleFade(false);
-                    setIsSplittable(true);
-                    setIsDisabled(true);
-                    setMessage(MESSAGES.SPLIT);
-                    setTimeout(() => {
-                        setShowResult(true);
-                    }, 500);
-                }
-                    } />
             </div>
         </div>
     );
