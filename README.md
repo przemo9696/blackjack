@@ -2,7 +2,7 @@
 
 Blackjack game created using React.js 
 
-Try it: https://play-some-blackjack.netlify.app/
+Live version: https://play-some-blackjack.netlify.app/
 
 Cards from https://www.deckofcardsapi.com/
 
