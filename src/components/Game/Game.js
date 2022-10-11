@@ -355,7 +355,6 @@ const TheGame = () => {
                 <Button text={BUTTON.HIT} onClick={onHitHandler} disabled={isDisabled} />
                 <div className="counter">{currentPlayerHand === HANDS.FIRST ? playerCounter : secondPlayerCounter}</div>
                 <Button text={BUTTON.STAND} onClick={onStandHandler} disabled={isDisabled} />
-                <Button text="TEST" onClick={splitHandler} />
             </div>
         </div>
     );
