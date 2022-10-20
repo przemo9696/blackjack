@@ -65,6 +65,7 @@ button.user-button:disabled {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   padding: 2vh;
 }
 
@@ -75,33 +76,36 @@ button.user-button:disabled {
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   padding: 2vh 0 2vh 0;
 }
 
 @keyframes split-animation {
-  0% {
-    width: 4vh;
-  }
-
   100% {
     width: 50%;
   }
 }
 
 .player-hand-one {
+  z-index: 7;
   width: 4vh;
+  height: inherit;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
   animation-name: split-animation;
   animation-fill-mode: forwards;
   animation-duration: 1s;
 }
 
  .player-hand-two {
+    z-index: 8;
     width: 4vh;
+    height: inherit;
     display: flex;
     flex-direction: row;
+    align-items: center;
     justify-content: center;
     animation-name: split-animation;
     animation-fill-mode: forwards;
@@ -197,6 +201,7 @@ button.user-button:disabled {
 .croupier-hand {
   z-index: 13;
   justify-content: center;
+  align-items: center;
   flex-direction: row;
   display: flex;
   height: 30vh;

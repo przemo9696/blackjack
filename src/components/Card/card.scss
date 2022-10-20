@@ -1,21 +1,63 @@
 .card img {
-    z-index: 12;
+    z-index: 9;
     width: 20vh;
   }
   
   @keyframes card-animation {
-    0% {bottom: 100px;}
-    
-    100% {bottom: 0px;}
+    0% {
+      transform: translate(150vh, -200vh);
+      rotate: 15deg;
+    }
+
+    100% {
+      rotate: 0deg;
+    }
   }
   
   .card {
-    position: relative;
-    right: 7.5vh;
-    width: 4vh;
+    z-index: 9;
+    position: absolute;
+    width: auto;
     animation-name: card-animation;
     animation-iteration-count: 1;
     animation-duration: 1s;
+    animation-fill-mode: forwards;
+  }
+
+  .card:nth-child(1) {
+    transform: translateX(-3vh);
+  }
+
+  .card:nth-child(2) {
+    transform: translateX(1vh);
+  }
+
+  .card:nth-child(3) {
+    transform: translateX(5vh);
+  }
+
+  .card:nth-child(4) {
+    transform: translateX(9vh);
+  }
+
+  .card:nth-child(5) {
+    transform: translateX(13vh);
+  }
+
+  .card:nth-child(6) {
+    transform: translateX(17vh);
+  }
+
+  .card:nth-child(7) {
+    transform: translateX(21vh);
+  }
+
+  .card:nth-child(8) {
+    transform: translateX(25vh);
+  }
+
+  .card:nth-child(9) {
+    transform: translateX(29vh);
   }
 
   .player-hand-one .card:nth-child(1) {
@@ -31,21 +73,46 @@
 }
 
 @media screen and (max-width: 620px) {
+
   .card img {
-    width: 16vh;
+    width: 18vh;
   }
 
-  .card {
-    top: 3vh;
-    right: 6.5vh;
-    width: 3vh;
-    animation-name: card-animation2;
+  .card:nth-child(1) {
+    transform: translateX(-2vh);
   }
 
-  @keyframes card-animation2 {
-    0% {top: -25px;}
-    
-    100% {bottom: 0px;}
+  .card:nth-child(2) {
+    transform: translateX(1vh);
   }
+
+  .card:nth-child(3) {
+    transform: translateX(4vh);
+  }
+
+  .card:nth-child(4) {
+    transform: translateX(7vh);
+  }
+
+  .card:nth-child(5) {
+    transform: translateX(10vh);
+  }
+
+  .card:nth-child(6) {
+    transform: translateX(13vh);
+  }
+
+  .card:nth-child(7) {
+    transform: translateX(16vh);
+  }
+
+  .card:nth-child(8) {
+    transform: translateX(19vh);
+  }
+
+  .card:nth-child(9) {
+    transform: translateX(22vh);
+  }
+
 }
   
