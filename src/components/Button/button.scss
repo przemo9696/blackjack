@@ -37,3 +37,9 @@ button.user-button:disabled {
     font-size: 0.9rem;
   }
 }
+
+@media screen and (max-width: 500px) {
+  .user-button {
+    max-width: 6rem;
+  }
+}

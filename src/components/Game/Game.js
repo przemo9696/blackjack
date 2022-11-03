@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import './../Game/game.scss';
 import { fetchDeck, shuffleDeck } from './../Game/Fetch.js';
@@ -287,7 +286,6 @@ const TheGame = () => {
 
     return (
         <div className="main">
-            <div className="croupier-score-bg"></div>
             <div className="croupier-score">
                 <div className="counter">{croupierCounter}</div>
             </div>
@@ -350,7 +348,6 @@ const TheGame = () => {
                     })}
                 </div>
             }
-            <div className="user-interface-bg"></div>
             <div className="user-interface">
                 <Button text={BUTTON.HIT} onClick={onHitHandler} disabled={isDisabled} />
                 <div className="counter">{currentPlayerHand === HANDS.FIRST ? playerCounter : secondPlayerCounter}</div>

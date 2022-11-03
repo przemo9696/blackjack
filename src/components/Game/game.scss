@@ -18,12 +18,16 @@
   display: flex;
   justify-content: space-evenly;
   align-self: center;
-  width: 60%;
+  width: 95%;
+  max-width: 80rem;
   height: 15vh;
   display: flex;
   user-select: none;
   outline: none;
   z-index: 10;
+  background-color: rgba(63, 217, 20, 1);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 6vh 6vh 0vh 0vh;
 }
 
 .user-interface-bg {
@@ -228,13 +232,16 @@ button.user-button:disabled {
   z-index: 9;
 }
 
+
 .croupier-score {
-  position: absolute;
-  bottom: 81vh;
+  background-color: rgba(63, 217, 20, 1);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  border-radius: 0vh 0vh 6vh 6vh;
   color: white;
   justify-content: space-evenly;
   align-self: center;
   width: 60%;
+  max-width: 22rem;
   height: 9vh;
   display: flex;
   user-select: none;

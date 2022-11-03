@@ -4,13 +4,8 @@
   }
   
   @keyframes card-animation {
-    0% {
-      transform: translate(150vh, -200vh);
-      rotate: 15deg;
-    }
-
-    100% {
-      rotate: 0deg;
+    from {
+      transform: translate(125vh, -200vh)  rotate(90deg);
     }
   }
   
