@@ -15,8 +15,9 @@
   }
   
   .card {
+    overflow: hidden;
     z-index: 9;
-    position: absolute;
+    position: fixed;
     width: auto;
     animation-name: card-animation;
     animation-iteration-count: 1;
