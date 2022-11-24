@@ -26,25 +26,12 @@
   outline: none;
   z-index: 10;
   background-color: rgba(63, 217, 20, 1);
-  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
   border-radius: 6vh 6vh 0vh 0vh;
-}
-
-.user-interface-bg {
-  position: absolute;
-  border-radius: 7vh 7vh 0vh 0vh;
-  background-color: black;
-  opacity: 0.15;
-  align-self: center;
-  width: 95%;
-  max-width: 80rem;
-  height: 15vh;
-  -webkit-box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.6);
-  -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.6); 
-  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.6);
-  user-select: none;
-  outline: none;
-  z-index: 9;
+  -moz-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
 }
 
 button.user-button:disabled {
@@ -144,9 +131,11 @@ button.user-button:disabled {
   min-height: 6rem;
   border: 2px solid white;
   background-color: #3ed914; 
-  box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
   -moz-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5);
   -webkit-box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.5); 
+  -ms-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+  -o-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+  box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
 }
 
 .result-box-message {
@@ -215,26 +204,12 @@ button.user-button:disabled {
   margin: 2vh;
 }
 
-.croupier-score-bg {
-  margin-bottom: 0.5vh;
-  border-radius: 0vh 0vh 7vh 7vh;
-  background-color: black;
-  opacity: 0.15;
-  align-self: center;
-  width: 50%;
-  max-width: 20rem;
-  height: 10vh;
-  -webkit-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.6);
-  -moz-box-shadow: 0px 0px 5px 2px rgba(0, 0, 0, 0.6); 
-  box-shadow: 0px 0px 5px 2px rgba(0,0,0,0.6);
-  user-select: none;
-  outline: none;
-  z-index: 9;
-}
-
-
 .croupier-score {
   background-color: rgba(63, 217, 20, 1);
+  -moz-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  -ms-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  -o-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
   box-shadow: 0px 0px 5px 1px rgba(0, 0, 0, 0.3);
   border-radius: 0vh 0vh 6vh 6vh;
   color: white;

@@ -12,8 +12,13 @@
     min-width: 4.5rem;
     cursor: pointer;
     border-radius: 25px;
-    border: 2px solid white;
+    border: 2px solid white; 
+    -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+    -ms-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+    -o-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);   
     box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.5);
+    
     user-select: none;
     -webkit-tap-highlight-color: transparent;
 
